@@ -25,7 +25,7 @@ let Blogs = async function (req, res) {
             }
         }
     } catch (error) {
-        res.status(500).send({ status: false, message:error.message })
+        res.status(500).send({ status: false, message: error.message })
     }
 
 };
@@ -62,42 +62,42 @@ const getBlogs = async function (req, res) {
     }
     catch (err) {
         console.log(err)
-        res.status(500).send( { status: "failed", message: err.message})
+        res.status(500).send({ status: "failed", message: err.message })
     }
 
 }
 //================================================================================================================================
 const updating = async function (req, res) {
     const Id = req.params.blogId
-    try {
-        if (Id) {
-            let data = await blogModel.findById(Id)
-            if (data.isDeleted == false) {
-                let value1 = req.body.bodyupdate
-                let value2 = req.body.title
-                const arr2 = req.body.subcategory
-                const arr1 = req.body.tags
-                data.tags = data.tags.concat(arr1)
-                const result1 = data.tags.filter(b => b != null)
-                console.log(data.tags)
-                data.subcategory = data.subcategory.concat(arr2)
-                const result2 = data.subcategory.filter(b => b != null)
-                console.log(data.subcategory)
-                let data2 = await blogModel.findOneAndUpdate({ _id: Id }, { title: value2, body: value1, tags: result1, subcategory: result2 }, { new: true })
-                if (data.isPublished == false)
-                    data2 = await blogModel.findOneAndUpdate({ _id: Id }, { isPublished: true, publishedAt: Date.now() }, { new: true })
-                res.status(200).send({ status: true, msg: data2 })
-            }
-            else
-                res.status(404).send({ status: "false", msg: "data is already deleted" })
-
+    // try {
+    if (Id) {
+        let data = await blogModel.findById(Id)
+        if (data.isDeleted == false) {
+            let value1 = req.body.bodyupdate
+            let value2 = req.body.title
+            const arr2 = req.body.subcategory
+            const arr1 = req.body.tags
+            data.tags = data.tags.concat(arr1)
+            const result1 = data.tags.filter(b => b != null)
+            console.log(data.tags)
+            data.subcategory = data.subcategory.concat(arr2)
+            const result2 = data.subcategory.filter(b => b != null)
+            console.log(data.subcategory)
+            let data2 = await blogModel.findOneAndUpdate({ _id: Id }, { title: value2, body: value1, tags: result1, subcategory: result2 }, { new: true })
+            if (data.isPublished == false)
+                data2 = await blogModel.findOneAndUpdate({ _id: Id }, { isPublished: true, publishedAt: Date.now() }, { new: true })
+            res.status(200).send({ status: true, msg: data2 })
         }
         else
-            res.status(404).send({ status: "false", msg: "id is not exist" })
+            res.status(404).send({ status: "false", msg: "data is already deleted" })
 
     }
-    catch (err) { res.status(500).send({ message:err.message }) 
-    }
+    else
+        res.status(404).send({ status: "false", msg: "id is not exist" })
+
+    //}
+    // catch (err) { res.status(500).send({ message:err.message }) 
+    //}
 }
 
 //===================================================================================================================================================
@@ -117,7 +117,7 @@ const deleting = async function (req, res) {
         }
 
     }
-    catch (err) { res.status(500).send({status:false, message:err.message }) }
+    catch (err) { res.status(500).send({ status: false, message: err.message }) }
 }
 
 
@@ -153,7 +153,7 @@ const specificdeleting = async function (req, res) {
             res.status(404).send({ status: false, msg: "data is not available" })
     }
     catch (err) {
-        res.status(500).send({ status: false, message:err.meassage })
+        res.status(500).send({ status: false, message: err.meassage })
     }
 }
 //=========================================================================================================================================================================

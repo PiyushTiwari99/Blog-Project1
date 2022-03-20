@@ -16,12 +16,13 @@ const authorSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        // unique: true,
-        // validate:{
-        //     validator: validator.isEmail,
-        //     message: '{VALUE} is not a valid email',
-        //     isAsync: false
-        //   }
+        unique: [true, " emailId already used"],
+        validate(val) {
+            if (!validator.isEmail(val)) {
+                throw new Error("Invalid emailid")
+            }
+        }
+
 
     },
     password: {
